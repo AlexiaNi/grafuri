@@ -358,7 +358,7 @@ int main ()
   cout << "7. Sa se afiseze nodurile terminale" << endl;
   cout << "14. Citeste si verifica un lant" << endl; 
   cout << "15. Citeste si verifica un lant elementar" << endl; 
-  cout << "16. Citeste si verifica un ciclu" << endl; /*Slobozeanu
+  cout << "16. Citeste si verifica un ciclu" << endl; 
   cout << "11. Sa se verifice daca exista un lant de lungime 4" << endl;  
   cout << "19. Sa se verifice daca graful este conex" << endl;
   cout << "20. Sa se verifice daca graful este un arbore" << endl;  
