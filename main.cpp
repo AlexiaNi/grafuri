@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -229,9 +231,111 @@ void noduriterminale ()
 }
 
 
+void afiseazaCicluriLungime4() {
+    bool cicluriGasite = false;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = i + 1; j <= n; ++j) {
+            if (x[i][j]) {
+                for (int k = j + 1; k <= n; ++k) {
+                    if (x[j][k]) {
+                        for (int l = k + 1; l <= n; ++l) {
+                            if (x[k][l] && x[l][i]) {
+                                cout << "Ciclu de lungime 4: " << i << " " << j << " " << k << " " << l << " " << i << endl;
+                                cicluriGasite = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (!cicluriGasite) {
+        cout << "Nu exista cicluri de lungime 4 in graf." << endl;
+    }
+}
 
 
+bool verificaLant(const vector<int>& lant) {
+    for (size_t i = 0; i < lant.size() - 1; ++i) {
+        if (x[lant[i]][lant[i + 1]] == 0) {
+            return false;
+        }
+    }
+    return true;
+}
 
+bool verificaLantElementar(const vector<int>& lant) {
+    vector<bool> vizitat(n + 1, false);
+    for (int nod : lant) {
+        if (vizitat[nod]) {
+            return false;
+        }
+        vizitat[nod] = true;
+    }
+    return verificaLant(lant);
+}
+
+bool verificaCiclu(const vector<int>& ciclu) {
+    if (ciclu.size() < 3) {
+        return false;
+    }
+    if (ciclu.front() != ciclu.back()) {
+        return false;
+    }
+    vector<int> lant(ciclu.begin(), ciclu.end() - 1);
+    return verificaLantElementar(lant);
+}
+
+void citesteSiVerificaLant() {
+    int k;
+    cout << "Introduceti lungimea lantului: ";
+    cin >> k;
+    vector<int> lant(k);
+    cout << "Introduceti lantul: ";
+    for (int i = 0; i < k; ++i) {
+        cin >> lant[i];
+    }
+    if (verificaLant(lant)) {
+        cout << "Succesiunea reprezinta un lant.";
+    } else {
+        cout << "Succesiunea nu reprezinta un lant.";
+    }
+    cout << endl;
+}
+
+void citesteSiVerificaLantElementar() {
+    int k;
+    cout << "Introduceti lungimea lantului elementar: ";
+    cin >> k;
+    vector<int> lant(k);
+    cout << "Introduceti lantul elementar: ";
+    for (int i = 0; i < k; ++i) {
+        cin >> lant[i];
+    }
+    if (verificaLantElementar(lant)) {
+        cout << "Succesiunea reprezinta un lant elementar.";
+    } else {
+        cout << "Succesiunea nu reprezinta un lant elementar.";
+    }
+    cout << endl;
+}
+
+void citesteSiVerificaCiclu() {
+    int k;
+    cout << "Introduceti lungimea ciclului: ";
+    cin >> k;
+    vector<int> ciclu(k);
+    cout << "Introduceti ciclul: ";
+    for (int i = 0; i < k; ++i) {
+        cin >> ciclu[i];
+    }
+    if (verificaCiclu(ciclu)) {
+        cout << "Succesiunea reprezinta un ciclu.";
+    } else {
+        cout << "Succesiunea nu reprezinta un ciclu.";
+    }
+    cout << endl;
+}
 
 
 
@@ -252,10 +356,12 @@ int main ()
   cout << "4. Afiseaza nodurile adiacente pentru un nod dat" << endl;
   cout << "5. Afiseaza nodurile de grad maxim, respectiv minim" << endl;
   cout << "7. Sa se afiseze nodurile terminale" << endl;
-  cout << "11. Sa se afiseze nodurile terminale" << endl;
-  cout << "18. Sa se afiseze nodurile terminale" << endl;
-  cout << "19. Sa se verifice daca graful este conex" << endl; /*Niculae
-  cout << "20. Sa se verifice daca graful este un arbore" << endl;/*Niculae
+  cout << "14. Citeste si verifica un lant" << endl; /*Slobozeanu
+  cout << "15. Citeste si verifica un lant elementar" << endl; /*Slobozeanu
+  cout << "16. Citeste si verifica un ciclu" << endl; /*Slobozeanu
+  cout << "11. Sa se verifice daca exista un lant de lungime 4" << endl;  /*Niculae
+  cout << "19. Sa se verifice daca graful este conex" << endl;  /*Niculae
+  cout << "20. Sa se verifice daca graful este un arbore" << endl;  /*Niculae
   cout << "0. Iesire" << endl;
 
   int option;
@@ -295,24 +401,34 @@ int main ()
 		noduriterminale ();
 		break;
 	  }
-	case 11:
+	case 14:
 	  {
-	
+		itesteSiVerificaLant();
 		break;
 	  }
-	case 18:
+	case 15:
 	  {
-        
+		citesteSiVerificaLantElementar()
+		break;
+	  }
+	case 16:
+	  {
+		citesteSiVerificaCiclu()
+		break;
+	  }
+	case 11:
+	  {
+		afiseazaCicluriLungime4();
 		break;
 	  }
 	case 19:
 	  {
-        conex ();
+        	conex ();
 		break;
 	  }
 	case 20:
 	  {
-	    int k;
+	    	int k;
 		cout << "Introduceti nodul de plecare: ";
 		cin >> k;
 		arbore (k);
